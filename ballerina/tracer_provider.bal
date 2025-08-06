@@ -27,9 +27,9 @@ configurable int reporterFlushInterval = 1000;
 configurable int reporterBufferSize = 10000;
 
 function init() {
-    if (observe:isTracingEnabled() && observe:getTracingProvider() == PROVIDER_NAME) {
+    if observe:isTracingEnabled() && observe:getTracingProvider() == PROVIDER_NAME {
         string selectedSamplerType;
-        if (samplerType != "const" && samplerType != "ratelimiting" && samplerType != "probabilistic") {
+        if samplerType != "const" && samplerType != "ratelimiting" && samplerType != "probabilistic" {
             selectedSamplerType = DEFAULT_SAMPLER_TYPE;
             io:println("error: invalid Moesif configuration sampler type: " + samplerType
                                                + ". using default " + DEFAULT_SAMPLER_TYPE + " sampling");
