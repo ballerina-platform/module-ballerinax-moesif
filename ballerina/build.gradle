@@ -97,7 +97,6 @@ task updateTomlVersions {
         def openTelemetrySDKVersion = project.openTelemetrySDKVersion
         def openTelemetryExporterVersion = project.openTelemetryExporterVersion
         def openTelemetrySemconvVersion = project.openTelemetrySemconvVersion
-//        def perfmarkVersion = project.perfmarkVersion
         def okhttpVersion = project.okhttpVersion
         def kotlinVersion = project.kotlinVersion
         def okioVersion = project.okioVersion
@@ -109,7 +108,6 @@ task updateTomlVersions {
         newConfig = newConfig.replace("@opentelemetrySDK.version@", openTelemetrySDKVersion)
         newConfig = newConfig.replace("@opentelemetryExporter.version@", openTelemetryExporterVersion)
         newConfig = newConfig.replace("@opentelemetrySemconv.version@", openTelemetrySemconvVersion)
-//        newConfig = newConfig.replace("@perfmark.version@", perfmarkVersion)
         newConfig = newConfig.replace("@opentelemetryExporter.version@", openTelemetryExporterVersion)
         newConfig = newConfig.replace("@okhttp.version@", okhttpVersion)
         newConfig = newConfig.replace("@kotlin.version@", kotlinVersion)

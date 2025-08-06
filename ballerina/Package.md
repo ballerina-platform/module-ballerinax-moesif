@@ -32,7 +32,7 @@ tracingProvider="moesif"
 
 [ballerinax.moesif]
 applicationId = "xxxxx"     # Mandatory configuration. Get the application ID via the Moesif portal
-agentPort=55680             # Optional Configuration. Default value is 55680
+reporterBaseUrl = "xxxxx"   # Optional Configuration. Default value is https://api.moesif.net
 ```
 
 Follow the below steps to get the `applicationId`.

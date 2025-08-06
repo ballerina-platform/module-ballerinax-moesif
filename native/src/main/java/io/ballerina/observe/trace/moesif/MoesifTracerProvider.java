@@ -44,7 +44,7 @@ public class MoesifTracerProvider implements TracerProvider {
     private static final String APP_ID_HEADER = "X-Moesif-Application-Id";
     private static final PrintStream console = System.out;
 
-    static SdkTracerProviderBuilder tracerProviderBuilder;
+    private static SdkTracerProviderBuilder tracerProviderBuilder;
 
     @Override
     public String getName() {

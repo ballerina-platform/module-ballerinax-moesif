@@ -24,7 +24,7 @@ import static io.opentelemetry.api.common.AttributeKey.stringKey;
 
 /**
  * This class is copied from https://github.com/open-telemetry/opentelemetry-java/blob/v1.32.0/sdk-extensions/
- * moesif-remote-sampler/src/main/java/io/opentelemetry/sdk/extension/trace/moesif/sampler/RateLimitingSampler.java.
+ * jaeger-remote-sampler/src/main/java/io/opentelemetry/sdk/extension/trace/jaeger/sampler/RateLimitingSampler.java.
  * This sampler uses a leaky bucket rate limiter to ensure that traces are sampled with a certain constant rate.
  */
 public class RateLimitingSampler implements Sampler {

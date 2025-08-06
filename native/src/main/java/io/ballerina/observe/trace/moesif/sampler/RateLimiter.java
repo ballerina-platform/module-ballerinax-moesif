@@ -9,8 +9,16 @@ import io.opentelemetry.sdk.common.Clock;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+ * Implements a token-bucket rate limiting algorithm to control the rate of operations.
+ * <p>
+ * This class is used by {@link RateLimitingSampler} to ensure that sampling decisions
+ * do not exceed a configured rate. It maintains a balance of credits that are consumed
+ * as operations are performed, replenishing credits over time up to a maximum balance.
+ * </p>
+ * <p>
  * This class is copied from https://github.com/open-telemetry/opentelemetry-java/blob/v1.0.0/sdk-extensions/
- * moesif-remote-sampler/src/main/java/io/opentelemetry/sdk/extension/trace/moesif/sampler/RateLimiter.java.
+ * jaeger-remote-sampler/src/main/java/io/opentelemetry/sdk/extension/trace/jaeger/sampler/RateLimiter.java.
+ * </p>
  */
 class RateLimiter {
     private final Clock clock;
