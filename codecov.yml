@@ -1,0 +1,5 @@
+fixes:
+  - "ballerinax/moesif/*/::ballerina/"
+  
+ignore:
+  - "**/native"
