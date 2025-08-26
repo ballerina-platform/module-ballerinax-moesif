@@ -1,0 +1,6 @@
+[ballerina.observe]
+tracingEnabled=true
+tracingProvider="moesif"
+
+[ballerinax.moesif]
+applicationId="xxx"

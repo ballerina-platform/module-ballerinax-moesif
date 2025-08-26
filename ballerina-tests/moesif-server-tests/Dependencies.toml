@@ -15,17 +15,11 @@ dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.value"}
 ]
-modules = [
-	{org = "ballerina", packageName = "io", moduleName = "io"}
-]
 
 [[package]]
 org = "ballerina"
 name = "jballerina.java"
 version = "0.0.0"
-modules = [
-	{org = "ballerina", packageName = "jballerina.java", moduleName = "jballerina.java"}
-]
 
 [[package]]
 org = "ballerina"
@@ -97,16 +91,41 @@ modules = [
 ]
 
 [[package]]
+org = "ballerinai"
+name = "observe"
+version = "0.0.0"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "observe"}
+]
+modules = [
+	{org = "ballerinai", packageName = "observe", moduleName = "observe"}
+]
+
+[[package]]
 org = "ballerinax"
 name = "moesif"
 version = "1.0.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "observe"},
-	{org = "ballerina", name = "test"}
+	{org = "ballerina", name = "observe"}
 ]
 modules = [
 	{org = "ballerinax", packageName = "moesif", moduleName = "moesif"}
+]
+
+[[package]]
+org = "ballerinax"
+name = "moesif_server_tests"
+version = "0.1.0"
+dependencies = [
+	{org = "ballerina", name = "observe"},
+	{org = "ballerina", name = "test"},
+	{org = "ballerinai", name = "observe"},
+	{org = "ballerinax", name = "moesif"}
+]
+modules = [
+	{org = "ballerinax", packageName = "moesif_server_tests", moduleName = "moesif_server_tests"}
 ]
 
