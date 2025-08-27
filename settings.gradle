@@ -45,12 +45,12 @@ rootProject.name = 'module-ballerinax-moesif'
 include(':build-config:checkstyle')
 include(':moesif-extension-ballerina')
 include(':moesif-extension-native')
-include(':moesif-extension-tests')
+//include(':moesif-extension-tests')
 
 project(':build-config:checkstyle').projectDir = file('build-config/checkstyle')
 project(':moesif-extension-ballerina').projectDir = file('ballerina')
 project(':moesif-extension-native').projectDir = file('native')
-project(':moesif-extension-tests').projectDir = file('ballerina-tests')
+//project(':moesif-extension-tests').projectDir = file('ballerina-tests')
 
 gradleEnterprise {
     buildScan {

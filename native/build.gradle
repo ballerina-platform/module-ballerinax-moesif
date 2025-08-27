@@ -22,7 +22,7 @@ plugins {
 description = 'Ballerina - Moesif Extension - Native Module'
 
 dependencies {
-    checkstyle project(':checkstyle')
+    checkstyle project(':build-config:checkstyle')
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstylePluginVersion}"
 
     implementation "org.ballerinalang:ballerina-runtime:${ballerinaLangVersion}"
@@ -37,10 +37,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.23'
     implementation "com.squareup.okio:okio:3.9.0"
     
-    // Add missing OpenTelemetry internal dependencies for tests
     implementation "io.opentelemetry:opentelemetry-exporter-otlp-common:${openTelemetryExporterVersion}"
-//    implementation "io.perfmark:perfmark-api:${perfmarkVersion}"
-    
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testImplementation 'org.mockito:mockito-core:5.1.1'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.1.1'
@@ -50,7 +47,6 @@ dependencies {
 checkstyle {
     toolVersion '7.8.2'
     configFile rootProject.file("build-config/checkstyle/build/checkstyle.xml")
-//    configProperties = ["suppressionFile" : file("${rootDir}/build-config/checkstyle/build/suppressions.xml")]
 }
 
 def excludePattern = '**/module-info.java'
@@ -58,7 +54,7 @@ tasks.withType(Checkstyle) {
     exclude excludePattern
 }
 
-checkstyleMain.dependsOn(":checkstyle:downloadCheckstyleRuleFiles")
+checkstyleMain.dependsOn(":build-config:checkstyle:downloadCheckstyleRuleFiles")
 
 compileJava {
     doFirst {
@@ -68,28 +64,6 @@ compileJava {
         classpath = files()
     }
 }
-
-//
-//compileJava {
-//    doFirst {
-//        options.compilerArgs = [
-//                '--module-path', classpath.asPath,
-//        ]
-//        classpath = files()
-//    }
-//}
-
-//compileTestJava {
-//    // Don't use module path for test compilation
-//    options.compilerArgs = []
-//}
-//
-//test {
-//    useJUnitPlatform()
-//    testLogging {
-//        events "passed", "skipped", "failed", "standardOut", "standardError"
-//    }
-//}
 
 jar {
     manifest {
