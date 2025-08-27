@@ -56,8 +56,10 @@ jobs:
           ./gradlew clean build publish --stacktrace --scan --console=plain --no-daemon
           ./gradlew codeCoverageReport --console=plain --no-daemon
       - name: Upload Coverage Report
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: ballerina-platform/module-ballerinax-moesif
           files: ballerina-tests/moesif-server-tests/target/report/moesif_server_tests/coverage-report.xml
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
