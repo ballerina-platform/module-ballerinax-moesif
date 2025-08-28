@@ -55,6 +55,11 @@ clean {
     delete "${project.projectDir}/target"
     delete "${project.projectDir}/Ballerina.lock"
     delete "${project.projectDir}/ballerina-internal.log"
+    delete "${project.projectDir}/build"
+    doLast {
+        // Force cleanup with retry
+        ant.delete(dir: 'ballerina/build', failonerror: false, includeemptydirs: true)
+    }
 }
 
 task copyExternalJarsToLib(type: Copy) {
