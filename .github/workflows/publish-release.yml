@@ -1,25 +1,16 @@
-name: Publish release
+name: Publish Release
 
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [ stdlib-release-pipeline ]
+    types: [ connector-release-pipeline ]
 
 jobs:
-  cleanup:
-    name: Manual cleanup before release workflow
-    runs-on: ubuntu-latest
-    steps:
-      - name: Remove build directory
-        run: rm -rf ballerina/build || true
-
   call_workflow:
     name: Run Release Workflow
     if: ${{ github.repository_owner == 'ballerina-platform' }}
-#    needs: cleanup                    # Ensures cleanup runs before this job
-    uses: ballerina-platform/ballerina-library/.github/workflows/release-package-template.yml@main
+    uses: ballerina-platform/ballerina-library/.github/workflows/release-package-connector-template.yml@main
     secrets: inherit
     with:
       package-name: moesif
       package-org: ballerinax
-      additional-publish-flags: "-x :moesif-extension-ballerina:test"
