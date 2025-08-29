@@ -12,5 +12,5 @@ jobs:
     uses: ballerina-platform/ballerina-library/.github/workflows/release-package-template.yml@main
     secrets: inherit
     with:
-      package-name: ftp
-      package-org: ballerina
+      package-name: moesif
+      package-org: ballerinax
