@@ -22,3 +22,4 @@ jobs:
     with:
       package-name: moesif
       package-org: ballerinax
+      additional-publish-flags: "-x :moesif-extension-ballerina:test"
