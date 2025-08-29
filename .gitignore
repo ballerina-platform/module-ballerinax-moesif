@@ -34,3 +34,7 @@ hs_err_pid*
 *.iml
 *.ipr
 *.iws
+
+# Ballerina distribution files
+*.deb
+ballerina-*.deb
