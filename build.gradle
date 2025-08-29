@@ -89,3 +89,9 @@ release {
 task build {
     dependsOn('moesif-extension-ballerina:build')
 }
+
+project(':moesif-extension-ballerina') {
+    tasks.withType(JavaCompile) {
+        dependsOn ':moesif-extension-native:build'
+    }
+}
