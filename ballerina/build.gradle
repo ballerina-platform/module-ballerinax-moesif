@@ -29,10 +29,6 @@ configurations {
     externalJars {
         transitive false
     }
-    distribution {
-        canBeConsumed true
-        canBeResolved false
-    }
 }
 
 dependencies {
@@ -64,11 +60,7 @@ def packageOrg = "ballerinax"
 def packageName = "moesif"
 def ballerinaConfigFile = new File("${project.projectDir}/Ballerina.toml")
 def tomlVersion = stripBallerinaExtensionVersion("${project.version}")
-def ballerinaCentralAccessToken = System.getenv('BALLERINA_CENTRAL_ACCESS_TOKEN')
 def originalConfig = ballerinaConfigFile.text
-def artifactJar = file("$project.projectDir/target/cache/${packageOrg}/${packageName}/${tomlVersion}/java21/")
-def platform = "java21"
-def skipTests = false
 
 def stripBallerinaExtensionVersion(String extVersion) {
     if (extVersion.matches(project.ext.timestampedVersionRegex)) {
@@ -131,25 +123,6 @@ task commitTomlFiles {
                 commandLine 'cmd', '/c', "git commit -m \"[Automated] Update the native jar versions\" Ballerina.toml Dependencies.toml"
             } else {
                 commandLine 'sh', '-c', "git commit -m '[Automated] Update the native jar versions' Ballerina.toml Dependencies.toml"
-            }
-        }
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact source: createArtifactZip, extension: 'zip'
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/${System.getenv("packagePublishRepo")}")
-            credentials {
-                username = System.getenv("packageUser")
-                password = System.getenv("packagePAT")
             }
         }
     }
