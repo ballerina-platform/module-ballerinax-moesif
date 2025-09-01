@@ -15,7 +15,6 @@
  */
 
 module io.ballerina.observe.trace.extension.moesif {
-    requires io.ballerina.runtime;
     requires io.opentelemetry.api;
     requires io.opentelemetry.context;
     requires io.opentelemetry.sdk.trace;
@@ -23,6 +22,16 @@ module io.ballerina.observe.trace.extension.moesif {
     requires io.opentelemetry.extension.trace.propagation;
     requires io.opentelemetry.semconv;
     requires io.opentelemetry.exporter.otlp.http.trace;
+
+    requires java.base;
+    requires java.net.http;
+    requires java.logging;  // Changed from java.util.logging
+
+    // Jackson dependencies
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.annotation;
+    requires io.ballerina.runtime;
 
     provides io.ballerina.runtime.observability.tracer.spi.TracerProvider
             with io.ballerina.observe.trace.moesif.MoesifTracerProvider;

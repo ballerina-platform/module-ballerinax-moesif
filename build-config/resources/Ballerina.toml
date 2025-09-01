@@ -80,3 +80,21 @@ path = "./lib/okio-jvm-@okio.version@.jar"
 groupId = "com.squareup.okio"
 artifactId = "okio"
 version = "@okio.version@"
+
+[[platform.java21.dependency]]
+path = "./lib/jackson-core-@jackson.version@.jar"
+groupId = "com.fasterxml.jackson.core"
+artifactId = "jackson-core"
+version = "@jackson.version@"
+
+[[platform.java21.dependency]]
+path = "./lib/jackson-databind-@jackson.version@.jar"
+groupId = "com.fasterxml.jackson.core"
+artifactId = "jackson-databind"
+version = "@jackson.version@"
+
+[[platform.java21.dependency]]
+path = "./lib/jackson-annotations-@jackson.version@.jar"
+groupId = "com.fasterxml.jackson.core"
+artifactId = "jackson-annotations"
+version = "@jackson.version@"
