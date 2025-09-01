@@ -58,7 +58,9 @@ task copyExternalJarsToLib(type: Copy) {
 
 def packageOrg = "ballerinax"
 def packageName = "moesif"
-def ballerinaConfigFile = new File("${project.projectDir}/Ballerina.toml")
+def ballerinaTomlFilePlaceHolder = new File("${project.rootDir}/build-config/resources/Ballerina.toml")
+def ballerinaTomlFile = new File("$project.projectDir/Ballerina.toml")
+
 def tomlVersion = stripBallerinaExtensionVersion("${project.version}")
 def originalConfig = ballerinaConfigFile.text
 
@@ -87,7 +89,7 @@ task updateTomlFiles {
         def okioVersion = project.okioVersion
         def ballerinaLangVersion = project.ballerinaLangVersion
 
-        def newConfig = ballerinaConfigFile.text.replace("@project.version@", project.version)
+        def newConfig = ballerinaTomlFilePlaceHolder.text.replace("@project.version@", project.version)
         newConfig = newConfig.replace("@toml.version@", tomlVersion)
         newConfig = newConfig.replace("@opentelemetry.version@", openTelemetryVersion)
         newConfig = newConfig.replace("@opentelemetrySDK.version@", openTelemetrySDKVersion)
@@ -98,7 +100,7 @@ task updateTomlFiles {
         newConfig = newConfig.replace("@kotlin.version@", kotlinVersion)
         newConfig = newConfig.replace("@okio.version@", okioVersion)
         newConfig = newConfig.replace("@ballerina.version@", ballerinaLangVersion)
-        ballerinaConfigFile.text = newConfig
+        ballerinaTomlFile.text = newConfig
     }
 }
 
