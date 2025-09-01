@@ -13,7 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 plugins {
     id "com.github.spotbugs"
     id "com.github.johnrengelman.shadow"
@@ -72,6 +71,11 @@ subprojects {
     }
 }
 
+task build {
+    dependsOn('moesif-extension-native:build')
+    dependsOn('moesif-extension-ballerina:build')
+}
+
 def moduleVersion = project.version.replace("-SNAPSHOT", "")
 
 release {
@@ -83,15 +87,5 @@ release {
     git {
         requireBranch = "release-${moduleVersion}"
         pushToRemote = 'origin'
-    }
-}
-
-task build {
-    dependsOn('moesif-extension-ballerina:build')
-}
-
-project(':moesif-extension-ballerina') {
-    tasks.withType(JavaCompile) {
-        dependsOn ':moesif-extension-native:build'
     }
 }
