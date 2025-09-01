@@ -133,6 +133,7 @@ updateTomlFiles.dependsOn copyStdlibs
 build.dependsOn ":moesif-extension-native:build"
 test.dependsOn ":moesif-extension-native:build"
 build.dependsOn updateTomlFiles
+test.dependsOn updateTomlFiles
 
 publishToMavenLocal.dependsOn build
 publish.dependsOn build
