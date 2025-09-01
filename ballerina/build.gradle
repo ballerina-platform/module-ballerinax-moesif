@@ -62,7 +62,6 @@ def ballerinaTomlFilePlaceHolder = new File("${project.rootDir}/build-config/res
 def ballerinaTomlFile = new File("$project.projectDir/Ballerina.toml")
 
 def tomlVersion = stripBallerinaExtensionVersion("${project.version}")
-def originalConfig = ballerinaConfigFile.text
 
 def stripBallerinaExtensionVersion(String extVersion) {
     if (extVersion.matches(project.ext.timestampedVersionRegex)) {
@@ -101,12 +100,6 @@ task updateTomlFiles {
         newConfig = newConfig.replace("@okio.version@", okioVersion)
         newConfig = newConfig.replace("@ballerina.version@", ballerinaLangVersion)
         ballerinaTomlFile.text = newConfig
-    }
-}
-
-task revertTomlFile {
-    doLast {
-        ballerinaConfigFile.text = originalConfig
     }
 }
 
