@@ -1,6 +1,6 @@
 ## Package Overview
 
-The Moesif Observability Extension is one of the tracing extensions of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language.
+The Moesif observability extension is one of the tracing extensions of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language.
 
 It provides an implementation for tracing and publishing traces to a Moesif application.
 
