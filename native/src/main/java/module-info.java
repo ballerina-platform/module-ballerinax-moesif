@@ -25,7 +25,7 @@ module io.ballerina.observe.trace.extension.moesif {
 
     requires java.base;
     requires java.net.http;
-    requires java.logging;  // Changed from java.util.logging
+    requires java.logging;
 
     // Jackson dependencies
     requires com.fasterxml.jackson.core;

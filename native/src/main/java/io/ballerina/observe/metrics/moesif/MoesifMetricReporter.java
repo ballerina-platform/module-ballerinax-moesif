@@ -62,24 +62,25 @@ public class MoesifMetricReporter {
     private static volatile ScheduledExecutorService executor;
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final AtomicLong sessionCounter = new AtomicLong(0);
-    // Remove static httpClient; will create per config
     private static HttpClient httpClient;
     private static Duration httpTimeout = Duration.ofSeconds(30);
 
     /**
      * Initializes and starts the metrics reporting service.
      *
-     * @param reporterBaseUrl Base URL for the Moesif API
-     * @param applicationId Moesif application ID
-     * @param metricReporterFlushInterval Interval between metric reports in milliseconds
-     * @param metricReporterClientTimeout HTTP client timeout (currently unused but kept for API compatibility)
-     * @param isTraceLoggingEnabled Enable trace level logging
-     * @param isPayloadLoggingEnabled Enable payload logging
+     * @param reporterBaseUrl             Base URL for the Moesif API
+     * @param applicationId               Moesif application ID
+     * @param metricReporterFlushInterval Interval between metric reports in
+     *                                    milliseconds
+     * @param metricReporterClientTimeout HTTP client timeout (currently unused but
+     *                                    kept for API compatibility)
+     * @param isTraceLoggingEnabled       Enable trace level logging
+     * @param isPayloadLoggingEnabled     Enable payload logging
      * @return Array containing status messages
      */
     public static BArray sendMetrics(BString reporterBaseUrl, BString applicationId,
-                                     int metricReporterFlushInterval, int metricReporterClientTimeout,
-                                     boolean isTraceLoggingEnabled, boolean isPayloadLoggingEnabled) {
+            int metricReporterFlushInterval, int metricReporterClientTimeout,
+            boolean isTraceLoggingEnabled, boolean isPayloadLoggingEnabled) {
 
         validateInputs(reporterBaseUrl, applicationId, metricReporterFlushInterval);
         BArray output = ValueCreator.createArrayValue(
@@ -119,7 +120,7 @@ public class MoesifMetricReporter {
      * Validates input parameters.
      */
     private static void validateInputs(BString reporterBaseUrl, BString applicationId,
-                                       int metricReporterFlushInterval) {
+            int metricReporterFlushInterval) {
         if (reporterBaseUrl == null || reporterBaseUrl.getValue().trim().isEmpty()) {
             throw new IllegalArgumentException("Reporter base URL cannot be null or empty");
         }
@@ -145,7 +146,7 @@ public class MoesifMetricReporter {
      * Starts the metric reporting scheduler.
      */
     private static void startMetricReporting(BString reporterBaseUrl, BString applicationId,
-                                             int metricReporterFlushInterval, boolean isPayloadLoggingEnabled) {
+            int metricReporterFlushInterval, boolean isPayloadLoggingEnabled) {
         executor = getOrCreateExecutor();
         executor.scheduleAtFixedRate(() -> {
             try {
@@ -190,7 +191,7 @@ public class MoesifMetricReporter {
      * Publishes a batch of metrics to Moesif.
      */
     static void publishMetricsBatch(BString reporterBaseUrl, BString applicationId,
-                                    Metric[] metrics, boolean isPayloadLoggingEnabled) {
+            Metric[] metrics, boolean isPayloadLoggingEnabled) {
         try {
             ArrayNode actionsArray = createActionsFromMetrics(metrics);
 
@@ -282,7 +283,7 @@ public class MoesifMetricReporter {
      * Creates an action for statistical measures.
      */
     private static ObjectNode createStatAction(String baseName, String statType,
-                                               double value, Set<Tag> tags) {
+            double value, Set<Tag> tags) {
         String metricName = baseName + "_" + statType;
         return createAction(metricName, MetricConstants.GAUGE, value, tags);
     }
@@ -300,7 +301,7 @@ public class MoesifMetricReporter {
      * Creates a Moesif action with the specified parameters.
      */
     private static ObjectNode createAction(String metricName, String metricType,
-                                           double value, Set<Tag> tags) {
+            double value, Set<Tag> tags) {
         ObjectNode action = objectMapper.createObjectNode();
 
         // Set action name
@@ -322,7 +323,7 @@ public class MoesifMetricReporter {
      * Creates metadata object for the action.
      */
     private static ObjectNode createMetadata(String metricName, String metricType,
-                                             double value, Set<Tag> tags) {
+            double value, Set<Tag> tags) {
         ObjectNode metadata = objectMapper.createObjectNode();
 
         metadata.put("user_id", "system");
@@ -349,17 +350,16 @@ public class MoesifMetricReporter {
      * Sends HTTP request to Moesif API.
      */
     private static void sendHttpRequest(BString reporterBaseUrl, BString applicationId,
-                                        String jsonPayload, int metricCount) throws Exception {
+            String jsonPayload, int metricCount) throws Exception {
         String endpoint = reporterBaseUrl.getValue() + DEFAULT_ENDPOINT_PATH;
 
-
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(endpoint))
-        .header(APP_ID_HEADER, applicationId.getValue())
-        .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
-        .timeout(httpTimeout)
-        .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
-        .build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(endpoint))
+                .header(APP_ID_HEADER, applicationId.getValue())
+                .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+                .timeout(httpTimeout)
+                .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
+                .build();
 
         HttpResponse<String> response = httpClient.send(request,
                 HttpResponse.BodyHandlers.ofString());
@@ -371,7 +371,7 @@ public class MoesifMetricReporter {
      * Handles HTTP response from Moesif API.
      */
     private static void handleHttpResponse(HttpResponse<String> response, int metricCount,
-                                           String endpoint) {
+            String endpoint) {
         int statusCode = response.statusCode();
 
         if (statusCode >= HTTP_SUCCESS_MIN && statusCode <= HTTP_SUCCESS_MAX) {
@@ -404,7 +404,8 @@ public class MoesifMetricReporter {
      * Converts various numeric types to double.
      */
     private static double convertToDouble(Object value) {
-        if (value == null) return 0.0;
+        if (value == null)
+            return 0.0;
 
         return switch (value) {
             case Long l -> l.doubleValue();
@@ -430,8 +431,7 @@ public class MoesifMetricReporter {
      * Gets a safe metric name for logging.
      */
     private static String getMetricName(Metric metric) {
-        return metric != null && metric.getId() != null ?
-                metric.getId().getName() : "unknown_metric";
+        return metric != null && metric.getId() != null ? metric.getId().getName() : "unknown_metric";
     }
 
     /**
@@ -462,5 +462,6 @@ public class MoesifMetricReporter {
     /**
      * Helper record to hold metric value and type.
      */
-    private record MetricValue(double value, String type) {}
+    private record MetricValue(double value, String type) {
+    }
 }
