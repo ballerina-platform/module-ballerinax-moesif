@@ -1,6 +1,6 @@
 # Ballerina Moesif Observability Extension
 
-[![Build](https://github.com/ballerina-platform/module-ballerinax-moesif/workflows/Daily%20Build/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-moesif/actions?query=workflow%3A"Daily+Build")
+[![Build](https://github.com/ballerina-platform/module-ballerinax-moesif/actions/workflows/build-main.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-moesif/actions/workflows/build-main.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-moesif.svg)](https://github.com/ballerina-platform/module-ballerinax-moesif/commits/main)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-moesif/branch/main/graph/badge.svg?token=5GCQ36HBEB)](https://codecov.io/gh/ballerina-platform/module-ballerinax-moesif)
