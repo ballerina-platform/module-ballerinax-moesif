@@ -26,6 +26,7 @@ import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BString;
 import io.ballerina.runtime.observability.metrics.*;
 
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -325,8 +326,8 @@ public class MoesifMetricReporter {
     private static ObjectNode createMetadata(String metricName, String metricType,
             double value, Set<Tag> tags) {
         ObjectNode metadata = objectMapper.createObjectNode();
-
-        metadata.put("user_id", "system");
+        metadata.put("host", InetAddress.getLocalHost().getHostName());
+        metadata.put("language", "ballerina");
         metadata.put("session_id", generateSessionId());
         metadata.put("metric_name", metricName);
         metadata.put("metric_type", metricType);

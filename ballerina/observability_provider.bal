@@ -21,8 +21,11 @@ configurable string reporterBaseUrl = "https://api.moesif.net";
 configurable string applicationId = ?;
 configurable string samplerType = "const";
 configurable decimal samplerParam = 1;
-configurable int reporterFlushInterval = 1000;
-configurable int reporterBufferSize = 10000;
+configurable int tracingReporterFlushInterval = 1000;
+configurable int tracingReporterBufferSize = 10000;
+configurable int metricsReporterFlushInterval = 15000;
+configurable int metricsReporterClientTimeout = 10000;
+configurable map<string> additionalAttributes = {};
 
 configurable boolean isTraceLoggingEnabled = false;
 configurable boolean isPayloadLoggingEnabled = false;
@@ -39,10 +42,10 @@ function init() {
         }
 
         externInitializeConfigurations(reporterBaseUrl, applicationId, selectedSamplerType, samplerParam,
-            reporterFlushInterval, reporterBufferSize);
+            tracingReporterFlushInterval, tracingReporterBufferSize);
     }
     if observe:isMetricsEnabled() && observe:getMetricsReporter() == PROVIDER_NAME {
-        string[] output = externSendMetrics(reporterBaseUrl, applicationId, 15000, 10000,
+        string[] output = externSendMetrics(reporterBaseUrl, applicationId, metricsReporterFlushInterval, metricsReporterClientTimeout,
             isTraceLoggingEnabled, isPayloadLoggingEnabled);
         foreach string outputLine in output {
             if (outputLine.startsWith("error:")) {
@@ -62,7 +65,7 @@ function externInitializeConfigurations(string reporterBaseUrl, string applicati
 
 isolated function externSendMetrics(string reporterBaseUrl, string applicationId, int metricReporterFlushInterval,
                                      int metricReporterClientTimeout, boolean isTraceLoggingEnabled,
-                                     boolean isPayloadLoggingEnabled) returns string[] = @java:Method {
+                                     boolean isPayloadLoggingEnabled, map<string> additionalAttributes) returns string[] = @java:Method {
     'class: "io.ballerina.observe.metrics.moesif.MoesifMetricReporter",
     name: "sendMetrics"
 } external;
