@@ -46,7 +46,7 @@ function init() {
     }
     if observe:isMetricsEnabled() && observe:getMetricsReporter() == PROVIDER_NAME {
         string[] output = externSendMetrics(reporterBaseUrl, applicationId, metricsReporterFlushInterval, metricsReporterClientTimeout,
-            isTraceLoggingEnabled, isPayloadLoggingEnabled);
+            isTraceLoggingEnabled, isPayloadLoggingEnabled, additionalAttributes);
         foreach string outputLine in output {
             if (outputLine.startsWith("error:")) {
                 log:printError(outputLine);
