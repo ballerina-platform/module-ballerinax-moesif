@@ -45,6 +45,9 @@ dependencies {
     externalJars "com.squareup.okhttp3:okhttp:4.12.0"
     externalJars "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
     externalJars "com.squareup.okio:okio:3.9.0"
+    externalJars "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    externalJars "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    externalJars "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
 }
 
 clean {
@@ -87,6 +90,7 @@ task updateTomlFiles {
         def kotlinVersion = project.kotlinVersion
         def okioVersion = project.okioVersion
         def ballerinaLangVersion = project.ballerinaLangVersion
+        def jacksonVersion = project.jacksonVersion
 
         def newConfig = ballerinaTomlFilePlaceHolder.text.replace("@project.version@", project.version)
         newConfig = newConfig.replace("@toml.version@", tomlVersion)
@@ -99,6 +103,7 @@ task updateTomlFiles {
         newConfig = newConfig.replace("@kotlin.version@", kotlinVersion)
         newConfig = newConfig.replace("@okio.version@", okioVersion)
         newConfig = newConfig.replace("@ballerina.version@", ballerinaLangVersion)
+        newConfig = newConfig.replace("@jackson.version@", jacksonVersion)
         ballerinaTomlFile.text = newConfig
     }
 }

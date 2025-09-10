@@ -1,0 +1,9 @@
+const PROVIDER_NAME = "moesif";
+const DEFAULT_SAMPLER_TYPE = "const";
+const string METRIC_TYPE_GAUGE = "gauge";
+const string METRIC_TYPE_SUMMARY = "summary";
+const string EMPTY_STRING = "";
+const string NEW_LINE = "\n";
+const string EXPIRY_TAG = "timeWindow";
+const string PERCENTILE_TAG = "quantile";
+const string APP_ID_HEADER = "X-Moesif-Application-Id";

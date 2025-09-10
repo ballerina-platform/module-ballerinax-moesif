@@ -29,10 +29,24 @@ observabilityIncluded=true
 [ballerina.observe]
 tracingEnabled=true
 tracingProvider="moesif"
+metricsEnabled=true
+metricsReporter="moesif"
 
 [ballerinax.moesif]
 applicationId = "xxxxx"     # Mandatory configuration. Get the application ID via the Moesif portal
 reporterBaseUrl = "xxxxx"   # Optional Configuration. Default value is https://api.moesif.net
+tracingReporterFlushInterval = xxx; # Optional Configuration. Default value is 1000
+tracingReporterBufferSize = xxx; # Optional Configuration. Default value is 10000
+metricsReporterFlushInterval = xxx; # Optional Configuration. Default value is 15000
+metricsReporterClientTimeout = xxx; # Optional Configuration. Default value is 10000
+isTraceLoggingEnabled = xxx; # Optional Configuration. Default value is false
+isPayloadLoggingEnabled = xxx; # Optional Configuration. Default value is false
+
+# Additional attributes for metrics
+[ballerinax.moesif.additionalAttributes]
+key1 = "value1"
+key2 = "value2"
+
 ```
 
 Follow the below steps to get the `applicationId`.

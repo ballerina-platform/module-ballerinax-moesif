@@ -15,16 +15,20 @@
 import ballerina/io;
 import ballerina/jballerina.java;
 import ballerina/observe;
-
-const PROVIDER_NAME = "moesif";
-const DEFAULT_SAMPLER_TYPE = "const";
+import ballerina/log;
 
 configurable string reporterBaseUrl = "https://api.moesif.net";
 configurable string applicationId = ?;
 configurable string samplerType = "const";
 configurable decimal samplerParam = 1;
-configurable int reporterFlushInterval = 1000;
-configurable int reporterBufferSize = 10000;
+configurable int tracingReporterFlushInterval = 1000;
+configurable int tracingReporterBufferSize = 10000;
+configurable int metricsReporterFlushInterval = 15000;
+configurable int metricsReporterClientTimeout = 10000;
+configurable map<string> additionalAttributes = {};
+
+configurable boolean isTraceLoggingEnabled = false;
+configurable boolean isPayloadLoggingEnabled = false;
 
 function init() {
     if observe:isTracingEnabled() && observe:getTracingProvider() == PROVIDER_NAME {
@@ -38,7 +42,18 @@ function init() {
         }
 
         externInitializeConfigurations(reporterBaseUrl, applicationId, selectedSamplerType, samplerParam,
-            reporterFlushInterval, reporterBufferSize);
+            tracingReporterFlushInterval, tracingReporterBufferSize);
+    }
+    if observe:isMetricsEnabled() && observe:getMetricsReporter() == PROVIDER_NAME {
+        string[] output = externSendMetrics(reporterBaseUrl, applicationId, metricsReporterFlushInterval, metricsReporterClientTimeout,
+            isTraceLoggingEnabled, isPayloadLoggingEnabled, additionalAttributes);
+        foreach string outputLine in output {
+            if (outputLine.startsWith("error:")) {
+                log:printError(outputLine);
+            } else {
+                log:printInfo(outputLine);
+            }
+        }
     }
 }
 
@@ -46,4 +61,11 @@ function externInitializeConfigurations(string reporterBaseUrl, string applicati
         decimal samplerParam, int reporterFlushInterval, int reporterBufferSize) = @java:Method {
     'class: "io.ballerina.observe.trace.moesif.MoesifTracerProvider",
     name: "initializeConfigurations"
+} external;
+
+isolated function externSendMetrics(string reporterBaseUrl, string applicationId, int metricReporterFlushInterval,
+                                     int metricReporterClientTimeout, boolean isTraceLoggingEnabled,
+                                     boolean isPayloadLoggingEnabled, map<string> additionalAttributes) returns string[] = @java:Method {
+    'class: "io.ballerina.observe.metrics.moesif.MoesifMetricReporter",
+    name: "sendMetrics"
 } external;
