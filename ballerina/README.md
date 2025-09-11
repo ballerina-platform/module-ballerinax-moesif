@@ -1,8 +1,8 @@
 ## Package Overview
 
-The Moesif observability extension is one of the tracing extensions of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language.
+The Moesif observability extension is one of the observability extensions of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language.
 
-It provides an implementation for tracing and publishing traces to a Moesif application.
+It provides an implementation for publishing traces, logs and metrics to a Moesif application.
 
 ## Enabling Moesif Extension
 
@@ -29,14 +29,26 @@ observabilityIncluded=true
 [ballerina.observe]
 tracingEnabled=true
 tracingProvider="moesif"
-metricsEnabled=true
-metricsReporter="moesif"
 
 [ballerinax.moesif]
 applicationId = "xxxxx"     # Mandatory configuration. Get the application ID via the Moesif portal
 reporterBaseUrl = "xxxxx"   # Optional Configuration. Default value is https://api.moesif.net
 tracingReporterFlushInterval = xxx; # Optional Configuration. Default value is 1000
 tracingReporterBufferSize = xxx; # Optional Configuration. Default value is 10000
+isTraceLoggingEnabled = xxx; # Optional Configuration. Default value is false
+isPayloadLoggingEnabled = xxx; # Optional Configuration. Default value is false
+
+```
+
+4. To enable the extension and publish metrices to Moesif, add the following to the `Config.toml` when running your program.
+```toml
+[ballerina.observe]
+metricsEnabled=true
+metricsReporter="moesif"
+
+[ballerinax.moesif]
+applicationId = "xxxxx"     # Mandatory configuration. Get the application ID via the Moesif portal
+reporterBaseUrl = "xxxxx"   # Optional Configuration. Default value is https://api.moesif.net
 metricsReporterFlushInterval = xxx; # Optional Configuration. Default value is 15000
 metricsReporterClientTimeout = xxx; # Optional Configuration. Default value is 10000
 isTraceLoggingEnabled = xxx; # Optional Configuration. Default value is false
@@ -48,6 +60,8 @@ key1 = "value1"
 key2 = "value2"
 
 ```
+
+## Getting Moesif Application ID
 
 Follow the below steps to get the `applicationId`.
 - Log into <a target="_blank" href="https://www.moesif.com/wrap/">Moesif Portal</a>.
