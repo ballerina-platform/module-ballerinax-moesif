@@ -48,7 +48,7 @@ isPayloadLoggingEnabled = xxx; # Optional Configuration. Default value is false
 
 ```
 
-4. To enable the extension and publish metrices to Moesif, add the following to the `Config.toml` when running your program.
+4. To enable the extension and publish metrics to Moesif, add the following to the `Config.toml` when running your program.
 ```toml
 [ballerina.observe]
 metricsEnabled=true
@@ -279,7 +279,7 @@ service:
 
     `docker compose up`
 
-With this setup, Tthe Ballerina application writes its logs to a specified file, which Fluent Bit continuously tails and forwards to the OTEL Collector. The OTEL Collector then processes these logs and publishes them to Moesif.
+With this setup, the Ballerina application writes its logs to a specified file, which Fluent Bit continuously tails and forwards to the OTEL Collector. The OTEL Collector then processes these logs and publishes them to Moesif.
 
 ### Visualizing the observability data
 
