@@ -133,7 +133,7 @@ public class MoesifMetricReporter {
                     reporterBaseUrl.getValue(), DEFAULT_ENDPOINT_PATH, cachedAdditionalAttributes.size());
             output.append(StringUtils.fromString(successMessage));
 
-            logger.info(successMessage);
+            logger.fine(successMessage);
 
         } catch (Exception e) {
             String errorMessage = "Failed to start Moesif metrics reporter: " + e.getMessage();
@@ -185,7 +185,7 @@ public class MoesifMetricReporter {
                 }
             }
 
-            logger.info(String.format("Processed additional attributes: %d valid, %d skipped",
+            logger.fine(String.format("Processed additional attributes: %d valid, %d skipped",
                 processedCount, skippedCount));
 
         } catch (Exception e) {
@@ -218,7 +218,7 @@ public class MoesifMetricReporter {
     private static void configureLogging(boolean isTraceLoggingEnabled) {
         if (isTraceLoggingEnabled) {
             logger.setLevel(Level.FINE);
-            logger.info("Trace logging enabled for Moesif metrics reporter");
+            logger.fine("Trace logging enabled for Moesif metrics reporter");
         }
     }
 
@@ -238,7 +238,7 @@ public class MoesifMetricReporter {
                 }
 
                 if (isPayloadLoggingEnabled) {
-                    logger.info(String.format("Reporting %d metrics", metrics.length));
+                    logger.fine(String.format("Reporting %d metrics", metrics.length));
                 }
 
                 publishMetricsBatch(reporterBaseUrl, applicationId, metrics, isPayloadLoggingEnabled);
@@ -283,7 +283,7 @@ public class MoesifMetricReporter {
             String jsonPayload = objectMapper.writeValueAsString(actionsArray);
 
             if (isPayloadLoggingEnabled) {
-                logger.info("Metric payload: " + jsonPayload);
+                logger.fine("Metric payload: " + jsonPayload);
             }
 
             sendHttpRequest(reporterBaseUrl, applicationId, jsonPayload, metrics.length);
@@ -466,7 +466,7 @@ public class MoesifMetricReporter {
         int statusCode = response.statusCode();
 
         if (statusCode >= HTTP_SUCCESS_MIN && statusCode <= HTTP_SUCCESS_MAX) {
-            logger.info(String.format("Successfully published %d metrics to %s",
+            logger.fine(String.format("Successfully published %d metrics to %s",
                     metricCount, endpoint));
         } else {
             String errorMsg = String.format(
@@ -603,7 +603,7 @@ public class MoesifMetricReporter {
                 executor.shutdownNow();
                 Thread.currentThread().interrupt();
             }
-            logger.info("Moesif metrics reporter shutdown completed");
+            logger.fine("Moesif metrics reporter shutdown completed");
         }
 
         // Clear cached attributes
