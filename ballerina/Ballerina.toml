@@ -15,86 +15,86 @@
 [package]
 org = "ballerinax"
 name = "moesif"
-version = "@toml.version@"
-distribution = "@ballerina.version@"
+version = "1.0.1"
+distribution = "2201.12.7"
 
 [platform.java21]
 graalvmCompatible = true
 
 [[platform.java21.dependency]]
-path = "../native/build/libs/moesif-extension-native-@project.version@.jar"
+path = "../native/build/libs/moesif-extension-native-1.0.1.jar"
 groupId = "ballerina"
 artifactId = "moesif-extension-native"
-version = "@project.version@"
+version = "1.0.1"
 
 [[platform.java21.dependency]]
-path = "./lib/opentelemetry-sdk-trace-@opentelemetrySDK.version@.jar"
+path = "./lib/opentelemetry-sdk-trace-1.32.0.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-sdk-trace"
-version = "@opentelemetrySDK.version@"
+version = "1.32.0"
 
 [[platform.java21.dependency]]
-path = "./lib/opentelemetry-sdk-common-@opentelemetrySDK.version@.jar"
+path = "./lib/opentelemetry-sdk-common-1.32.0.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-sdk-common"
-version = "@opentelemetrySDK.version@"
+version = "1.32.0"
 
 [[platform.java21.dependency]]
-path = "./lib/opentelemetry-semconv-@opentelemetrySemconv.version@.jar"
+path = "./lib/opentelemetry-semconv-1.21.0-alpha.jar"
 groupId = "io.opentelemetry.semconv"
 artifactId = "opentelemetry-semconv"
-version = "@opentelemetrySemconv.version@"
+version = "1.21.0-alpha"
 
 [[platform.java21.dependency]]
-path = "./lib/opentelemetry-exporter-otlp-http-trace-@opentelemetryExporter.version@.jar"
+path = "./lib/opentelemetry-exporter-otlp-http-trace-1.14.0.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-exporter-otlp-http-trace"
-version = "@opentelemetryExporter.version@"
+version = "1.14.0"
 
 [[platform.java21.dependency]]
-path = "./lib/opentelemetry-exporter-otlp-common-@opentelemetryExporter.version@.jar"
+path = "./lib/opentelemetry-exporter-otlp-common-1.14.0.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-exporter-otlp-common"
-version = "@opentelemetryExporter.version@"
+version = "1.14.0"
 
 [[platform.java21.dependency]]
-path = "./lib/opentelemetry-extension-trace-propagators-@opentelemetry.version@.jar"
+path = "./lib/opentelemetry-extension-trace-propagators-1.32.0.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-extension-trace-propagators"
-version = "@opentelemetry.version@"
+version = "1.32.0"
 
 [[platform.java21.dependency]]
-path = "./lib/okhttp-@okhttp.version@.jar"
+path = "./lib/okhttp-4.12.0.jar"
 groupId = "com.squareup.okhttp3"
 artifactId = "okhttp"
-version = "@okhttp.version@"
+version = "4.12.0"
 
 [[platform.java21.dependency]]
-path = "./lib/kotlin-stdlib-@kotlin.version@.jar"
+path = "./lib/kotlin-stdlib-1.9.23.jar"
 groupId = "org.jetbrains.kotlin"
 artifactId = "kotlin-stdlib"
-version = "@kotlin.version@"
+version = "1.9.23"
 
 [[platform.java21.dependency]]
-path = "./lib/okio-jvm-@okio.version@.jar"
+path = "./lib/okio-jvm-3.9.0.jar"
 groupId = "com.squareup.okio"
 artifactId = "okio"
-version = "@okio.version@"
+version = "3.9.0"
 
 [[platform.java21.dependency]]
-path = "./lib/jackson-core-@jackson.version@.jar"
+path = "./lib/jackson-core-2.17.1.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-core"
-version = "@jackson.version@"
+version = "2.17.1"
 
 [[platform.java21.dependency]]
-path = "./lib/jackson-databind-@jackson.version@.jar"
+path = "./lib/jackson-databind-2.17.1.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-databind"
-version = "@jackson.version@"
+version = "2.17.1"
 
 [[platform.java21.dependency]]
-path = "./lib/jackson-annotations-@jackson.version@.jar"
+path = "./lib/jackson-annotations-2.17.1.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-annotations"
-version = "@jackson.version@"
+version = "2.17.1"
