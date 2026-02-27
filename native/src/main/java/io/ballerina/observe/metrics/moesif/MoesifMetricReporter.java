@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -85,6 +86,13 @@ public class MoesifMetricReporter {
     private static volatile Map<String, String> cachedAdditionalAttributes = Collections.emptyMap();
     private static final Object attributesCacheLock = new Object();
 
+    // Snapshot of metric values from the previous reporting cycle
+    private static final Map<String, Double> previousMetricSnapshot = new ConcurrentHashMap<>();
+
+    // Metric names used to determine whether new request activity has occurred
+    private static final String ACTIVITY_COUNTER_NAME = "requests_total";
+    private static final String INPROGRESS_GAUGE_NAME = "inprogress_requests";
+
     /**
      * Initializes and starts the metrics reporting service.
      *
@@ -96,12 +104,14 @@ public class MoesifMetricReporter {
      *                                    kept for API compatibility)
      * @param isTraceLoggingEnabled       Enable trace level logging
      * @param isPayloadLoggingEnabled     Enable payload logging
+     * @param idleTimePublishingEnabled   Enable publishing metrics even when no new activity is detected
      * @param additionalAttributes        Additional metadata attributes to include
      * @return Array containing status messages
      */
     public static BArray sendMetrics(BString reporterBaseUrl, BString applicationId,
             int metricReporterFlushInterval, int metricReporterClientTimeout,
             boolean isTraceLoggingEnabled, boolean isPayloadLoggingEnabled,
+            boolean idleTimePublishingEnabled,
             BMap<BString, BString> additionalAttributes) {
 
         validateInputs(reporterBaseUrl, applicationId, metricReporterFlushInterval);
@@ -126,7 +136,7 @@ public class MoesifMetricReporter {
 
         try {
             startMetricReporting(reporterBaseUrl, applicationId, metricReporterFlushInterval,
-                    isPayloadLoggingEnabled);
+                    isPayloadLoggingEnabled, idleTimePublishingEnabled);
 
             String successMessage = String.format(
                     "Started publishing metrics to Moesif endpoint: %s%s with %d additional attributes",
@@ -226,7 +236,7 @@ public class MoesifMetricReporter {
      * Starts the metric reporting scheduler.
      */
     private static void startMetricReporting(BString reporterBaseUrl, BString applicationId,
-            int metricReporterFlushInterval, boolean isPayloadLoggingEnabled) {
+            int metricReporterFlushInterval, boolean isPayloadLoggingEnabled, boolean idleTimePublishingEnabled) {
         executor = getOrCreateExecutor();
         executor.scheduleAtFixedRate(() -> {
             try {
@@ -234,6 +244,15 @@ public class MoesifMetricReporter {
 
                 if (metrics.length == 0) {
                     logger.fine("No metrics to report");
+                    return;
+                }
+
+                // Capture whether activity was detected.
+                boolean hasActivity = hasNewActivity(metrics);
+                if (!idleTimePublishingEnabled && !hasActivity) {
+                    if (isPayloadLoggingEnabled) {
+                        logger.fine("Skipping metric publish: no new counter activity since last cycle");
+                    }
                     return;
                 }
 
@@ -247,6 +266,53 @@ public class MoesifMetricReporter {
                 logger.severe("Error in metric reporting task: " + e.getMessage());
             }
         }, SCHEDULE_EXECUTOR_INITIAL_DELAY, metricReporterFlushInterval, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Compares requests_total and inprogress_requests metrics against the
+     * previous cycle's snapshot to determine whether new request activity has occurred.
+     *
+     * @param metrics all metrics from the registry
+     * @return {@code true} if any tracked metric changed value, or no tracked metrics exist
+     */
+    private static boolean hasNewActivity(Metric[] metrics) {
+        boolean hasTrackedMetrics = false;
+        boolean activityDetected = false;
+        Map<String, Double> currentSnapshot = new HashMap<>();
+
+        for (Metric metric : metrics) {
+            String name = metric.getId().getName();
+
+            if (metric instanceof Counter counter && name.endsWith(ACTIVITY_COUNTER_NAME)) {
+                hasTrackedMetrics = true;
+                String key = "counter:" + name + counter.getId().getTags().toString();
+                double currentValue = convertToDouble(counter.getValue());
+                currentSnapshot.put(key, currentValue);
+
+                Double previousValue = previousMetricSnapshot.get(key);
+                if (previousValue == null || Double.compare(previousValue, currentValue) != 0) {
+                    activityDetected = true;
+                }
+
+            } else if (metric instanceof Gauge gauge && name.endsWith(INPROGRESS_GAUGE_NAME)) {
+                hasTrackedMetrics = true;
+                String key = "gauge:" + name + gauge.getId().getTags().toString();
+                double currentValue = convertToDouble(gauge.getValue());
+                currentSnapshot.put(key, currentValue);
+
+                Double previousValue = previousMetricSnapshot.get(key);
+                if (previousValue == null || Double.compare(previousValue, currentValue) != 0) {
+                    activityDetected = true;
+                }
+            }
+        }
+
+        // Update snapshot for the next cycle
+        previousMetricSnapshot.clear();
+        previousMetricSnapshot.putAll(currentSnapshot);
+
+        // If neither tracked metric is registered, publish safely — cannot determine activity
+        return !hasTrackedMetrics || activityDetected;
     }
 
     /**
@@ -606,10 +672,11 @@ public class MoesifMetricReporter {
             logger.fine("Moesif metrics reporter shutdown completed");
         }
 
-        // Clear cached attributes
+        // Clear cached attributes and previous cycle snapshot
         synchronized (attributesCacheLock) {
             cachedAdditionalAttributes = Collections.emptyMap();
         }
+        previousMetricSnapshot.clear();
     }
 
     /**
