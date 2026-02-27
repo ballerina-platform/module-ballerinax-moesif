@@ -26,6 +26,7 @@ int metricsFlushInterval = 0;
 int metricsClientTimeout = 0;
 boolean metricsTraceLogging = false;
 boolean metricsPayloadLogging = false;
+boolean metricsIdleTimePublishing = false;
 map<string> metricsAdditionalAttributes = {};
 string[] metricsOutput = [];
 
@@ -37,12 +38,14 @@ function resetMetricsMockState() {
     metricsClientTimeout = 0;
     metricsTraceLogging = false;
     metricsPayloadLogging = false;
+    metricsIdleTimePublishing = false;
     metricsAdditionalAttributes = {};
     metricsOutput = [];
 }
 
 function mockExternSendMetrics(string reporterBaseUrl, string applicationId, int metricReporterFlushInterval,
-        int metricReporterClientTimeout, boolean isTraceLoggingEnabled, boolean isPayloadLoggingEnabled, map<string> additionalAttributes) returns string[] {
+        int metricReporterClientTimeout, boolean isTraceLoggingEnabled, boolean isPayloadLoggingEnabled,
+        boolean idleTimePublishingEnabled, map<string> additionalAttributes) returns string[] {
     externSendMetricsCalled = true;
     metricsReporterBaseUrl = reporterBaseUrl;
     metricsApplicationId = applicationId;
@@ -50,6 +53,7 @@ function mockExternSendMetrics(string reporterBaseUrl, string applicationId, int
     metricsClientTimeout = metricReporterClientTimeout;
     metricsTraceLogging = isTraceLoggingEnabled;
     metricsPayloadLogging = isPayloadLoggingEnabled;
+    metricsIdleTimePublishing = idleTimePublishingEnabled;
     metricsAdditionalAttributes = additionalAttributes;
     // Simulate output
     metricsOutput = ["info: metrics sent", "error: test error"];
@@ -57,9 +61,10 @@ function mockExternSendMetrics(string reporterBaseUrl, string applicationId, int
 }
 
 function simulateMetricsPublishing(boolean metricsEnabled, string metricsProvider, string reporterBaseUrl, string applicationId,
-        int flushInterval, int clientTimeout, boolean traceLogging, boolean payloadLogging, map<string> additionalAttributes) returns string[] {
+        int flushInterval, int clientTimeout, boolean traceLogging, boolean payloadLogging,
+        boolean idleTimePublishing, map<string> additionalAttributes) returns string[] {
     if metricsEnabled && metricsProvider == PROVIDER_NAME {
-        return mockExternSendMetrics(reporterBaseUrl, applicationId, flushInterval, clientTimeout, traceLogging, payloadLogging, additionalAttributes);
+        return mockExternSendMetrics(reporterBaseUrl, applicationId, flushInterval, clientTimeout, traceLogging, payloadLogging, idleTimePublishing, additionalAttributes);
     }
     return [];
 }
@@ -73,10 +78,11 @@ function testMetricsPublishingCalledWithCorrectParams() {
     int clientTimeout = 10000;
     boolean traceLogging = true;
     boolean payloadLogging = false;
+    boolean idleTimePublishing = false;
     map<string> additionalAttributes = {"env": "test"};
 
     string[] output = simulateMetricsPublishing(metricsEnabled, metricsProvider, TEST_REPORTER_BASE_URL, TEST_APPLICATION_ID,
-        flushInterval, clientTimeout, traceLogging, payloadLogging, additionalAttributes);
+        flushInterval, clientTimeout, traceLogging, payloadLogging, idleTimePublishing, additionalAttributes);
 
     test:assertTrue(externSendMetricsCalled, "Metrics publishing should be called");
     test:assertEquals(metricsReporterBaseUrl, TEST_REPORTER_BASE_URL, "Reporter base URL should match");
@@ -85,6 +91,7 @@ function testMetricsPublishingCalledWithCorrectParams() {
     test:assertEquals(metricsClientTimeout, clientTimeout, "Client timeout should match");
     test:assertEquals(metricsTraceLogging, traceLogging, "Trace logging flag should match");
     test:assertEquals(metricsPayloadLogging, payloadLogging, "Payload logging flag should match");
+    test:assertEquals(metricsIdleTimePublishing, idleTimePublishing, "Idle time publishing flag should match");
     test:assertEquals(metricsAdditionalAttributes["env"], "test", "Additional attribute should match");
     test:assertEquals(output.length(), 2, "Should return output array");
 }
@@ -95,7 +102,7 @@ function testMetricsPublishingNotCalledWhenDisabled() {
     boolean metricsEnabled = false;
     string metricsProvider = PROVIDER_NAME;
     string[] output = simulateMetricsPublishing(metricsEnabled, metricsProvider, TEST_REPORTER_BASE_URL, TEST_APPLICATION_ID,
-        15000, 10000, false, false, {});
+        15000, 10000, false, false, false, {});
     test:assertFalse(externSendMetricsCalled, "Metrics publishing should not be called when disabled");
     test:assertEquals(output.length(), 0, "Output should be empty");
 }
@@ -106,7 +113,7 @@ function testMetricsPublishingNotCalledForOtherProvider() {
     boolean metricsEnabled = true;
     string metricsProvider = "other";
     string[] output = simulateMetricsPublishing(metricsEnabled, metricsProvider, TEST_REPORTER_BASE_URL, TEST_APPLICATION_ID,
-        15000, 10000, false, false, {});
+        15000, 10000, false, false, false, {});
     test:assertFalse(externSendMetricsCalled, "Metrics publishing should not be called for other provider");
     test:assertEquals(output.length(), 0, "Output should be empty");
 }
@@ -117,7 +124,7 @@ function testMetricsPublishingHandlesOutput() {
     boolean metricsEnabled = true;
     string metricsProvider = PROVIDER_NAME;
     string[] output = simulateMetricsPublishing(metricsEnabled, metricsProvider, TEST_REPORTER_BASE_URL, TEST_APPLICATION_ID,
-        15000, 10000, false, false, {});
+        15000, 10000, false, false, false, {});
     test:assertTrue(output[0].startsWith("info:"), "First output should be info");
     test:assertTrue(output[1].startsWith("error:"), "Second output should be error");
 }

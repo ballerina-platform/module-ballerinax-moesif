@@ -29,6 +29,7 @@ configurable map<string> additionalAttributes = {};
 
 configurable boolean isTraceLoggingEnabled = false;
 configurable boolean isPayloadLoggingEnabled = false;
+configurable boolean idleTimePublishingEnabled = false;
 
 function init() {
     if observe:isTracingEnabled() && observe:getTracingProvider() == PROVIDER_NAME {
@@ -46,7 +47,7 @@ function init() {
     }
     if observe:isMetricsEnabled() && observe:getMetricsReporter() == PROVIDER_NAME {
         string[] output = externSendMetrics(reporterBaseUrl, applicationId, metricsReporterFlushInterval, metricsReporterClientTimeout,
-            isTraceLoggingEnabled, isPayloadLoggingEnabled, additionalAttributes);
+            isTraceLoggingEnabled, isPayloadLoggingEnabled, idleTimePublishingEnabled, additionalAttributes);
         foreach string outputLine in output {
             if (outputLine.startsWith("error:")) {
                 log:printError(outputLine);
@@ -65,7 +66,8 @@ function externInitializeConfigurations(string reporterBaseUrl, string applicati
 
 isolated function externSendMetrics(string reporterBaseUrl, string applicationId, int metricReporterFlushInterval,
                                      int metricReporterClientTimeout, boolean isTraceLoggingEnabled,
-                                     boolean isPayloadLoggingEnabled, map<string> additionalAttributes) returns string[] = @java:Method {
+                                     boolean isPayloadLoggingEnabled, boolean idleTimePublishingEnabled,
+                                     map<string> additionalAttributes) returns string[] = @java:Method {
     'class: "io.ballerina.observe.metrics.moesif.MoesifMetricReporter",
     name: "sendMetrics"
 } external;

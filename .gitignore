@@ -38,3 +38,7 @@ hs_err_pid*
 # Ballerina distribution files
 *.deb
 ballerina-*.deb
+
+# generated files
+target
+.ballerina
