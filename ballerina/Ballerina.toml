@@ -22,10 +22,10 @@ distribution = "2201.12.7"
 graalvmCompatible = true
 
 [[platform.java21.dependency]]
-path = "../native/build/libs/moesif-extension-native-1.0.3-SNAPSHOT.jar"
+path = "../native/build/libs/moesif-extension-native-1.0.3.jar"
 groupId = "ballerina"
 artifactId = "moesif-extension-native"
-version = "1.0.3-SNAPSHOT"
+version = "1.0.3"
 
 [[platform.java21.dependency]]
 path = "./lib/opentelemetry-sdk-trace-1.32.0.jar"
