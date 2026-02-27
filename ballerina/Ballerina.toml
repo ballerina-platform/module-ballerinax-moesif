@@ -15,17 +15,17 @@
 [package]
 org = "ballerinax"
 name = "moesif"
-version = "1.0.2"
+version = "1.0.3"
 distribution = "2201.12.7"
 
 [platform.java21]
 graalvmCompatible = true
 
 [[platform.java21.dependency]]
-path = "../native/build/libs/moesif-extension-native-1.0.2.jar"
+path = "../native/build/libs/moesif-extension-native-1.0.3-SNAPSHOT.jar"
 groupId = "ballerina"
 artifactId = "moesif-extension-native"
-version = "1.0.2"
+version = "1.0.3-SNAPSHOT"
 
 [[platform.java21.dependency]]
 path = "./lib/opentelemetry-sdk-trace-1.32.0.jar"
