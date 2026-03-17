@@ -1,8 +1,13 @@
-## Package Overview
+## Overview
 
-The Moesif observability extension is one of the observability extensions of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language.
+The Moesif observability extension provides an implementation for publishing traces, logs, and metrics to a [Moesif](https://www.moesif.com/) application.
 
-It provides an implementation for publishing traces, logs and metrics to a Moesif application.
+### Key Features
+
+- Publish traces and metrics directly to the Moesif platform
+- Support for log forwarding via Fluent Bit and OTEL Collector
+- Configurable sampler, reporter, and additional metric attributes
+- Visualization through Moesif's pre-built and custom dashboards
 
 ### Getting Moesif Application ID
 
