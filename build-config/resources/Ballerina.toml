@@ -16,6 +16,7 @@
 org = "ballerinax"
 name = "moesif"
 version = "@toml.version@"
+keywords = ["Type/Connector", "Area/Developer Tools", "Vendor/Moesif", "Observability", "tracing", "metrics"]
 distribution = "@ballerina.version@"
 
 [platform.java21]
