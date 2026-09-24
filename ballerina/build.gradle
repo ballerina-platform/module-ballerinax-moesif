@@ -31,10 +31,10 @@ description = 'Ballerina - Moesif Extension - Ballerina Module'
 
 configurations {
     nativeJar {
-        transitive false
+        transitive = false
     }
     externalJars {
-        transitive false
+        transitive = false
     }
 }
 
@@ -89,17 +89,20 @@ def stripBallerinaExtensionVersion(String extVersion) {
 }
 
 task updateTomlFiles {
-    doLast {
-        def openTelemetryVersion = project.openTelemetryVersion
-        def openTelemetrySDKVersion = project.openTelemetrySDKVersion
-        def openTelemetryExporterVersion = project.openTelemetryExporterVersion
-        def okhttpVersion = project.okhttpVersion
-        def kotlinVersion = project.kotlinVersion
-        def okioVersion = project.okioVersion
-        def ballerinaLangVersion = project.ballerinaLangVersion
-        def jacksonVersion = project.jacksonVersion
+    // Resolve project properties at configuration time: accessing Task.project
+    // during execution is deprecated and fails in Gradle 10.
+    def projectVersion = project.version.toString()
+    def openTelemetryVersion = project.openTelemetryVersion
+    def openTelemetrySDKVersion = project.openTelemetrySDKVersion
+    def openTelemetryExporterVersion = project.openTelemetryExporterVersion
+    def okhttpVersion = project.okhttpVersion
+    def kotlinVersion = project.kotlinVersion
+    def okioVersion = project.okioVersion
+    def ballerinaLangVersion = project.ballerinaLangVersion
+    def jacksonVersion = project.jacksonVersion
 
-        def newConfig = ballerinaTomlFilePlaceHolder.text.replace("@project.version@", project.version)
+    doLast {
+        def newConfig = ballerinaTomlFilePlaceHolder.text.replace("@project.version@", projectVersion)
         newConfig = newConfig.replace("@toml.version@", tomlVersion)
         newConfig = newConfig.replace("@opentelemetry.version@", openTelemetryVersion)
         newConfig = newConfig.replace("@opentelemetrySDK.version@", openTelemetrySDKVersion)
