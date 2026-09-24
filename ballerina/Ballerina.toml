@@ -15,7 +15,7 @@
 [package]
 org = "ballerinax"
 name = "moesif"
-version = "1.0.4"
+version = "1.1.0"
 keywords = ["Type/Driver", "Area/Developer Tools", "Vendor/Moesif", "Observability", "tracing", "metrics"]
 distribution = "2201.14.0"
 
@@ -23,10 +23,10 @@ distribution = "2201.14.0"
 graalvmCompatible = true
 
 [[platform.java25.dependency]]
-path = "../native/build/libs/moesif-extension-native-1.0.4-SNAPSHOT.jar"
+path = "../native/build/libs/moesif-extension-native-1.1.0-SNAPSHOT.jar"
 groupId = "ballerina"
 artifactId = "moesif-extension-native"
-version = "1.0.4-SNAPSHOT"
+version = "1.1.0-SNAPSHOT"
 
 [[platform.java25.dependency]]
 path = "./lib/opentelemetry-sdk-trace-1.65.0.jar"
