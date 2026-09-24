@@ -20,8 +20,7 @@ module io.ballerina.observe.trace.extension.moesif {
     requires io.opentelemetry.sdk.trace;
     requires io.opentelemetry.sdk.common;
     requires io.opentelemetry.extension.trace.propagation;
-    requires io.opentelemetry.semconv;
-    requires io.opentelemetry.exporter.otlp.http.trace;
+    requires io.opentelemetry.exporter.otlp;
 
     requires java.base;
     requires java.net.http;

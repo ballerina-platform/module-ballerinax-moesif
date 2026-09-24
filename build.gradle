@@ -71,9 +71,16 @@ subprojects {
     }
 }
 
-task build {
-    dependsOn('moesif-extension-native:build')
-    dependsOn('moesif-extension-ballerina:build')
+if (tasks.names.contains('build')) {
+    tasks.named('build') {
+        dependsOn('moesif-extension-native:build')
+        dependsOn('moesif-extension-ballerina:build')
+    }
+} else {
+    tasks.register('build') {
+        dependsOn('moesif-extension-native:build')
+        dependsOn('moesif-extension-ballerina:build')
+    }
 }
 
 def moduleVersion = project.version.replace("-SNAPSHOT", "")

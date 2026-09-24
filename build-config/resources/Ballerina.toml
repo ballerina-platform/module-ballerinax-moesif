@@ -17,84 +17,95 @@ org = "ballerinax"
 name = "moesif"
 version = "@toml.version@"
 keywords = ["Type/Driver", "Area/Developer Tools", "Vendor/Moesif", "Observability", "tracing", "metrics"]
-distribution = "@ballerina.version@"
+distribution = "2201.14.0"
 
-[platform.java21]
+[platform.java25]
 graalvmCompatible = true
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "../native/build/libs/moesif-extension-native-@project.version@.jar"
 groupId = "ballerina"
 artifactId = "moesif-extension-native"
 version = "@project.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/opentelemetry-sdk-trace-@opentelemetrySDK.version@.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-sdk-trace"
 version = "@opentelemetrySDK.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/opentelemetry-sdk-common-@opentelemetrySDK.version@.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-sdk-common"
 version = "@opentelemetrySDK.version@"
 
-[[platform.java21.dependency]]
-path = "./lib/opentelemetry-semconv-@opentelemetrySemconv.version@.jar"
-groupId = "io.opentelemetry.semconv"
-artifactId = "opentelemetry-semconv"
-version = "@opentelemetrySemconv.version@"
+# NOTE: opentelemetry-api, opentelemetry-context, and opentelemetry-common are
+# intentionally not packed: ballerina-rt shades these artifacts and its copies always win
+# classloading. opentelemetry-semconv is not needed: the only used constant
+# (service.name) is inlined in the native code.
 
-[[platform.java21.dependency]]
-path = "./lib/opentelemetry-exporter-otlp-http-trace-@opentelemetryExporter.version@.jar"
+[[platform.java25.dependency]]
+path = "./lib/opentelemetry-exporter-otlp-@opentelemetryExporter.version@.jar"
 groupId = "io.opentelemetry"
-artifactId = "opentelemetry-exporter-otlp-http-trace"
+artifactId = "opentelemetry-exporter-otlp"
 version = "@opentelemetryExporter.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/opentelemetry-exporter-otlp-common-@opentelemetryExporter.version@.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-exporter-otlp-common"
 version = "@opentelemetryExporter.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
+path = "./lib/opentelemetry-exporter-common-@opentelemetryExporter.version@.jar"
+groupId = "io.opentelemetry"
+artifactId = "opentelemetry-exporter-common"
+version = "@opentelemetryExporter.version@"
+
+[[platform.java25.dependency]]
+path = "./lib/opentelemetry-exporter-sender-okhttp-@opentelemetryExporter.version@.jar"
+groupId = "io.opentelemetry"
+artifactId = "opentelemetry-exporter-sender-okhttp"
+version = "@opentelemetryExporter.version@"
+
+[[platform.java25.dependency]]
 path = "./lib/opentelemetry-extension-trace-propagators-@opentelemetry.version@.jar"
 groupId = "io.opentelemetry"
 artifactId = "opentelemetry-extension-trace-propagators"
 version = "@opentelemetry.version@"
 
-[[platform.java21.dependency]]
-path = "./lib/okhttp-@okhttp.version@.jar"
+[[platform.java25.dependency]]
+path = "./lib/okhttp-jvm-@okhttp.version@.jar"
 groupId = "com.squareup.okhttp3"
-artifactId = "okhttp"
+artifactId = "okhttp-jvm"
 version = "@okhttp.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/kotlin-stdlib-@kotlin.version@.jar"
 groupId = "org.jetbrains.kotlin"
 artifactId = "kotlin-stdlib"
 version = "@kotlin.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/okio-jvm-@okio.version@.jar"
 groupId = "com.squareup.okio"
-artifactId = "okio"
+artifactId = "okio-jvm"
 version = "@okio.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/jackson-core-@jackson.version@.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-core"
 version = "@jackson.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/jackson-databind-@jackson.version@.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-databind"
 version = "@jackson.version@"
 
-[[platform.java21.dependency]]
+[[platform.java25.dependency]]
 path = "./lib/jackson-annotations-@jackson.version@.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-annotations"
