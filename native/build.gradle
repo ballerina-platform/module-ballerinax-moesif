@@ -20,19 +20,18 @@ plugins {
 
 description = 'Ballerina - Moesif Extension - Native Module'
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
 dependencies {
     implementation "org.ballerinalang:ballerina-runtime:${ballerinaLangVersion}"
     implementation "io.opentelemetry:opentelemetry-context:${openTelemetryVersion}"
     implementation "io.opentelemetry:opentelemetry-sdk-trace:${openTelemetrySDKVersion}"
     implementation "io.opentelemetry:opentelemetry-sdk-common:${openTelemetrySDKVersion}"
-    implementation "io.opentelemetry.semconv:opentelemetry-semconv:${openTelemetrySemconvVersion}"
-    implementation "io.opentelemetry:opentelemetry-exporter-otlp-http-trace:${openTelemetryExporterVersion}"
+    implementation "io.opentelemetry:opentelemetry-exporter-otlp:${openTelemetryExporterVersion}"
     implementation "io.opentelemetry:opentelemetry-extension-trace-propagators:${openTelemetryVersion}"
-    implementation "io.opentelemetry:opentelemetry-sdk-extension-jaeger-remote-sampler:${openTelemetrySDKVersion}"
-    implementation "com.squareup.okhttp3:okhttp:4.12.0"
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.23'
-    implementation "com.squareup.okio:okio:3.9.0"
-    implementation "io.opentelemetry:opentelemetry-exporter-otlp-common:${openTelemetryExporterVersion}"
     implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
@@ -72,7 +71,7 @@ jar {
 
 task copyJavaClassFiles(type: Copy) {
     dependsOn(compileJava)
-    from("${project.buildDir}/classes") {
+    from(layout.buildDirectory.dir("classes")) {
         exclude '**/module-info.class'
         include '**/*.class'
     }

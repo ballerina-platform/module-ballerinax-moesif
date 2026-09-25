@@ -29,15 +29,15 @@ pluginManagement {
         maven {
             url = 'https://maven.pkg.github.com/ballerina-platform/*'
             credentials {
-                username System.getenv("packageUser")
-                password System.getenv("packagePAT")
+                username = System.getenv("packageUser")
+                password = System.getenv("packagePAT")
             }
         }
     }
 }
 
 plugins {
-    id "com.gradle.enterprise" version "3.2"
+    id "com.gradle.develocity" version "3.19.2"
 }
 
 rootProject.name = 'module-ballerinax-moesif'
@@ -52,9 +52,9 @@ project(':moesif-extension-ballerina').projectDir = file('ballerina')
 project(':moesif-extension-native').projectDir = file('native')
 //project(':moesif-extension-tests').projectDir = file('ballerina-tests')
 
-gradleEnterprise {
+develocity {
     buildScan {
-        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-        termsOfServiceAgree = 'yes'
+        termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
+        termsOfUseAgree = 'yes'
     }
 }

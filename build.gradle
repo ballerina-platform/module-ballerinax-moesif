@@ -44,8 +44,8 @@ allprojects {
         maven {
             url = 'https://maven.pkg.github.com/ballerina-platform/*'
             credentials {
-                username System.getenv("packageUser")
-                password System.getenv("packagePAT")
+                username = System.getenv("packageUser")
+                password = System.getenv("packagePAT")
             }
         }
     }
@@ -71,9 +71,16 @@ subprojects {
     }
 }
 
-task build {
-    dependsOn('moesif-extension-native:build')
-    dependsOn('moesif-extension-ballerina:build')
+if (tasks.names.contains('build')) {
+    tasks.named('build') {
+        dependsOn('moesif-extension-native:build')
+        dependsOn('moesif-extension-ballerina:build')
+    }
+} else {
+    tasks.register('build') {
+        dependsOn('moesif-extension-native:build')
+        dependsOn('moesif-extension-ballerina:build')
+    }
 }
 
 def moduleVersion = project.version.replace("-SNAPSHOT", "")

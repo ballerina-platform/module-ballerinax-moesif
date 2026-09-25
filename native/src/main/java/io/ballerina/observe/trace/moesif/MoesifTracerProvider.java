@@ -20,6 +20,7 @@ import io.ballerina.observe.trace.moesif.sampler.RateLimitingSampler;
 import io.ballerina.runtime.api.values.BDecimal;
 import io.ballerina.runtime.api.values.BString;
 import io.ballerina.runtime.observability.tracer.spi.TracerProvider;
+import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
@@ -34,13 +35,14 @@ import io.opentelemetry.sdk.trace.samplers.Sampler;
 import java.io.PrintStream;
 import java.util.concurrent.TimeUnit;
 
-import static io.opentelemetry.semconv.ResourceAttributes.SERVICE_NAME;
-
 /**
  * This is the Moesif tracing extension class for {@link TracerProvider}.
  */
 public class MoesifTracerProvider implements TracerProvider {
     private static final String TRACER_NAME = "moesif";
+    // Semantic convention key for the service name; declared inline to avoid
+    // packing the semconv jar for this single constant.
+    private static final AttributeKey<String> SERVICE_NAME = AttributeKey.stringKey("service.name");
     private static final String APP_ID_HEADER = "X-Moesif-Application-Id";
     private static final PrintStream console = System.out;
 
