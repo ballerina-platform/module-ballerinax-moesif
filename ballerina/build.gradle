@@ -55,7 +55,7 @@ dependencies {
     externalJars "com.squareup.okio:okio-jvm:${okioVersion}"
     externalJars "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     externalJars "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-    externalJars "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    externalJars "com.fasterxml.jackson.core:jackson-annotations:${jacksonAnnotationsVersion}"
 }
 
 clean {
@@ -100,6 +100,7 @@ task updateTomlFiles {
     def okioVersion = project.okioVersion
     def ballerinaLangVersion = project.ballerinaLangVersion
     def jacksonVersion = project.jacksonVersion
+    def jacksonAnnotationsVersion = project.jacksonAnnotationsVersion
 
     doLast {
         def newConfig = ballerinaTomlFilePlaceHolder.text.replace("@project.version@", projectVersion)
@@ -112,6 +113,7 @@ task updateTomlFiles {
         newConfig = newConfig.replace("@okio.version@", okioVersion)
         newConfig = newConfig.replace("@ballerina.version@", ballerinaLangVersion)
         newConfig = newConfig.replace("@jackson.version@", jacksonVersion)
+        newConfig = newConfig.replace("@jacksonAnnotations.version@", jacksonAnnotationsVersion)
         ballerinaTomlFile.text = newConfig
     }
 }

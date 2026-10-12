@@ -94,19 +94,19 @@ artifactId = "okio-jvm"
 version = "3.17.0"
 
 [[platform.java25.dependency]]
-path = "./lib/jackson-core-2.17.1.jar"
+path = "./lib/jackson-core-2.21.7.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-core"
-version = "2.17.1"
+version = "2.21.7"
 
 [[platform.java25.dependency]]
-path = "./lib/jackson-databind-2.17.1.jar"
+path = "./lib/jackson-databind-2.21.7.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-databind"
-version = "2.17.1"
+version = "2.21.7"
 
 [[platform.java25.dependency]]
-path = "./lib/jackson-annotations-2.17.1.jar"
+path = "./lib/jackson-annotations-2.21.jar"
 groupId = "com.fasterxml.jackson.core"
 artifactId = "jackson-annotations"
-version = "2.17.1"
+version = "2.21"
